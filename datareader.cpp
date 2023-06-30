@@ -1,10 +1,7 @@
 #include "datareader.h"
 
-DataReader::DataReader()
-{
 
-}
-QList<QPair<QString, float_t>> DataReader::SQLReader(QString path){
+QList<QPair<QString, float_t>> SQLDataReader::GetData(QString path){
        QSqlDatabase dbase = QSqlDatabase::addDatabase("QSQLITE");
        dbase.setDatabaseName(path);
        if (!dbase.open()) {
@@ -23,7 +20,7 @@ QList<QPair<QString, float_t>> DataReader::SQLReader(QString path){
        return data;
 
 }
-QList<QPair<QString, float_t>> DataReader::JSONReader(QString path){
+QList<QPair<QString, float_t>> JSONDataReader::GetData(QString path){
     QFile file(path);
     QList<QPair<QString, float_t>> data;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
