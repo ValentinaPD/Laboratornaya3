@@ -23,3 +23,28 @@ QList<QPair<QString, float_t>> DataReader::SQLReader(QString path){
        return data;
 
 }
+QList<QPair<QString, float_t>> DataReader::JSONReader(QString path){
+    QFile file(path);
+    QList<QPair<QString, float_t>> data;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+       QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+       file.close();
+
+       QJsonObject object = document.object();
+       QListIterator<QString> iterator(object.keys());
+       while (iterator.hasNext()) {
+           QString key=iterator.next();
+           double value =object.value(key).toDouble();
+           data.append(qMakePair(key,value));
+           qDebug() << object.value(key).toDouble();
+       }
+       if (data.isEmpty()) {
+           qDebug()<<"Ошибка. Файл пуст";
+       }
+    }
+    else {
+       qDebug()<<"Ошибка. Файл не читается";
+    }
+    return data;
+
+}

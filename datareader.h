@@ -8,6 +8,7 @@ class DataReader
 public:
     DataReader();
     QList<QPair<QString, float_t>> SQLReader(QString path);
+    QList<QPair<QString, float_t>> JSONReader(QString path);
 };
 
 #endif // DATAREADER_H
