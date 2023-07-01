@@ -25,12 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    datareader.cpp
+    datareader.cpp \
+    win.cpp
 
 HEADERS += \
         mainwindow.h \
     datareader.h \
-    ioccontainer.h
+    ioccontainer.h \
+    win.h
 
 FORMS += \
         mainwindow.ui
