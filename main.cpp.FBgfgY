@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
 
     IOCContainer injector;
 
-    injector.RegisterInstance<DataReader, SQLDataReader>();
-    auto dataReader = injector.GetObject<DataReader>();
-    dataReader->GetData("C:\\TRPOLabs\\Laboratornaya3\\TEMPERATURE_NOVOSIB.sqlite");
+    injector.RegisterFactory<DataReader, JSONDataReader>();
+    auto dataReader = injector.GetObject<JSONDataReader>();
+    //dataReader.
     //processor->Set(3.1,ProcessorType::x64,"78");
     //Computer computer(processor.get());
     //cout<<computer.GetProcessorInfo()<<endl;

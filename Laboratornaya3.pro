@@ -29,7 +29,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    datareader.h
+    datareader.h \
+    ioccontainer.h
 
 FORMS += \
         mainwindow.ui

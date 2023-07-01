@@ -5,31 +5,31 @@
 
 class DataReader{
 public:
-    DataReader();
-    virtual QString GetData(QString path);
-protected:
+    virtual QList<QPair<QString, float_t>> GetData(QString path) = 0;
+    virtual ~DataReader() = default;
+public:
     virtual bool IsOpen(QString path) = 0;
     virtual bool IsEmpty(QString path) = 0;
-    virtual QString ReadData(QString path) = 0;
+
 
 };
-class SQLDataReader : DataReader{
-private:
+class SQLDataReader : public DataReader{
+public:
     bool IsOpen(QString path);
     bool IsEmpty(QString path);
-    QString ReadData(QString path);
 public:
     SQLDataReader(){};
     QList<QPair<QString, float_t>> GetData(QString path);
+    virtual ~SQLDataReader() = default;
 };
-class JSONDataReader : DataReader{
-private:
+class JSONDataReader : public DataReader{
+public:
     bool IsOpen(QString path);
     bool IsEmpty(QString path);
-    QString ReadData(QString path);
 public:
     JSONDataReader(){};
     QList<QPair<QString, float_t>> GetData(QString path);
+    virtual ~JSONDataReader() = default;
 };
 
 

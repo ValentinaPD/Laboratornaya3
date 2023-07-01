@@ -1,6 +1,5 @@
 #include "datareader.h"
 
-
 QList<QPair<QString, float_t>> SQLDataReader::GetData(QString path){
        QSqlDatabase dbase = QSqlDatabase::addDatabase("QSQLITE");
        dbase.setDatabaseName(path);
@@ -45,3 +44,18 @@ QList<QPair<QString, float_t>> JSONDataReader::GetData(QString path){
     return data;
 
 }
+
+bool SQLDataReader::IsOpen(QString path){
+    return false;
+}
+bool SQLDataReader::IsEmpty(QString path){
+    return false;
+}
+
+bool JSONDataReader::IsOpen(QString path){
+    return false;
+}
+bool JSONDataReader::IsEmpty(QString path){
+    return false;
+}
+
