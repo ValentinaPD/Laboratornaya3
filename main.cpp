@@ -8,10 +8,10 @@ int IOCContainer::s_nextTypeId = 115094801;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-   // MainWindow w;
+    MainWindow w;
 
-    Win win;
-       win.show();
+    //Win win;
+    //   win.show();
     //IOCContainer injector;
 
     //injector.RegisterInstance<DataReader, SQLDataReader>();
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     //DataReader dr;
     //dr.SQLReader("C:\\TRPOLabs\\Laboratornaya3\\TEMPERATURE_NOVOSIB.sqlite");
     //dr.JSONReader("C://DataJSON.json");
-   // w.show();
+    w.show();
 
     return a.exec();
 }

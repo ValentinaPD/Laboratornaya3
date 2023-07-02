@@ -2,7 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QtGui>
+#include <QWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QFileSystemModel>
+#include <QListView>
+#include <QStatusBar>
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +23,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+protected:
+    QTextCodec *codec;
+    QPushButton * btn;
+    QFileSystemModel *tableSysModel;
+    QListView *listView;
+
 };
 
 #endif // MAINWINDOW_H
