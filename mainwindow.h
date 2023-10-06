@@ -18,6 +18,8 @@
 #include <QCheckBox>
 #include <QtCharts/QtCharts>
 #include <QTableView>
+#include <QSplitter>
+#include <memory>
 namespace Ui {
 class MainWindow;
 }
@@ -29,13 +31,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QPushButton *printButton;
-    QLabel *label1;
-    QLabel *label2;
-    QComboBox *diagTypeComboBox;
-    QCheckBox *diagColorCheckBox;
-    QChartView *chartView;
-    QTableView *tableView;
+    std::unique_ptr <QPushButton> printButton;
+    std::unique_ptr <QLabel> label1;
+    std::unique_ptr <QLabel> label2;
+    std::unique_ptr <QComboBox> diagTypeComboBox;
+    std::unique_ptr <QCheckBox> diagColorCheckBox;
+    std::unique_ptr <QChartView> chartView;
+    std::unique_ptr <QTableView> tableView;
+    std::unique_ptr <QSplitter> splitter;
 
 private:
     Ui::MainWindow *ui;
