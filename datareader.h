@@ -2,35 +2,41 @@
 #define DATAREADER_H
 #include "QString"
 #include <QtSql>
+#include <QException>
 
-class DataReader{
+class IDataReader{
 public:
-    virtual QList<QPair<QString, float_t>> GetData(QString path) = 0;
-    virtual ~DataReader() = default;
+    virtual QList<QPair<QString, float_t>> GetData(const QString& path) = 0;
+    virtual ~IDataReader() = default;
 public:
-    virtual bool IsOpen(QString path) = 0;
-    virtual bool IsEmpty(QString path) = 0;
+    virtual bool IsExist(const QString& path) = 0;
 
 
 };
-class SQLDataReader : public DataReader{
+class SQLDataReader : public IDataReader{
 public:
-    bool IsOpen(QString path);
-    bool IsEmpty(QString path);
+    bool IsExist(const QString& path);
 public:
-    SQLDataReader(){};
-    QList<QPair<QString, float_t>> GetData(QString path);
+    SQLDataReader();
+    QList<QPair<QString, float_t>> GetData(const QString& path);
     virtual ~SQLDataReader() = default;
 };
-class JSONDataReader : public DataReader{
+class JSONDataReader : public IDataReader{
 public:
-    bool IsOpen(QString path);
-    bool IsEmpty(QString path);
+    bool IsExist(const QString& path);
 public:
-    JSONDataReader(){};
-    QList<QPair<QString, float_t>> GetData(QString path);
+    JSONDataReader();
+    QList<QPair<QString, float_t>> GetData(const QString& path);
     virtual ~JSONDataReader() = default;
 };
-
-
+/*
+class DataReaderImp
+{
+private:
+   IDataReader datareader;
+public:
+   DataReaderImp(const IDataReader& dataReader);
+   QList<Qpair<Qstring, float_t>> GetData(QSting path);
+};
+*/
 #endif // DATAREADER_H
