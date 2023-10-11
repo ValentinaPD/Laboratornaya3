@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Построитель диаграмм");
 
     printButton = std::make_unique<QPushButton>("Печать графика",this);
+    openFolderButton = std::make_unique<QPushButton>("Выбрать папку",this);
     label1 = std::make_unique<QLabel>("Выберите тип диаграммы",this);
     label2 = std::make_unique<QLabel>("Черно-белый");
     diagTypeComboBox = std::make_unique<QComboBox>();
@@ -33,10 +34,19 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView = std::make_unique<QTableView>();
     tableView->setMinimumSize(300,500);
 
+    QString homePath = QDir::homePath();
+    // Определим  файловой системы:
+    leftPartModel = std::make_unique<QFileSystemModel>(this);
+    leftPartModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    leftPartModel->setRootPath(homePath);
+    tableView->setModel(leftPartModel.get());
     std::unique_ptr<QVBoxLayout> mainLayout = std::make_unique<QVBoxLayout>(this);
     std::unique_ptr<QHBoxLayout> topLayout = std::make_unique<QHBoxLayout>();
+    std::unique_ptr<QHBoxLayout> tLeftLayout = std::make_unique<QHBoxLayout>();
 
 
+    tLeftLayout->addWidget(openFolderButton.get());
+    topLayout ->addLayout(tLeftLayout.release());
 
     topLayout ->addWidget(label1.get());
     topLayout ->addWidget(diagTypeComboBox.get());
@@ -58,8 +68,13 @@ MainWindow::MainWindow(QWidget *parent) :
     mainWidget ->setLayout(mainLayout.release());
 
     setCentralWidget(mainWidget.release());
+    connect(openFolderButton.get(), &QPushButton::clicked, this, &MainWindow::OpenFolder);
 }
 
+void MainWindow::OpenFolder(){
+    QString filePath = QFileDialog::getExistingDirectory(this, "Выбор папки", QDir::homePath());
+
+}
 MainWindow::~MainWindow()
 {
     delete ui;

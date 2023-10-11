@@ -20,6 +20,7 @@
 #include <QTableView>
 #include <QSplitter>
 #include <memory>
+#include <QFileDialog>
 namespace Ui {
 class MainWindow;
 }
@@ -32,6 +33,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     std::unique_ptr <QPushButton> printButton;
+    std::unique_ptr <QPushButton> openFolderButton;
     std::unique_ptr <QLabel> label1;
     std::unique_ptr <QLabel> label2;
     std::unique_ptr <QComboBox> diagTypeComboBox;
@@ -39,7 +41,10 @@ public:
     std::unique_ptr <QChartView> chartView;
     std::unique_ptr <QTableView> tableView;
     std::unique_ptr <QSplitter> splitter;
+    std::unique_ptr <QFileSystemModel> leftPartModel;
 
+public slots:
+    void OpenFolder();
 private:
     Ui::MainWindow *ui;
 protected:
