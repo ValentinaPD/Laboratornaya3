@@ -45,6 +45,7 @@ public:
 
 public slots:
     void OpenFolder();
+    void OpenFile(const QItemSelection &selected, const QItemSelection &deselected);
 private:
     Ui::MainWindow *ui;
 protected:

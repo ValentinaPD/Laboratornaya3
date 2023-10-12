@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setGeometry(100, 100, 1500, 700);
     this->setMinimumSize(900, 500);
     this->setWindowTitle("Построитель диаграмм");
+    this->setStatusBar(new QStatusBar(this));
+    this->statusBar()->showMessage("Выбранный путь : ");
 
     printButton = std::make_unique<QPushButton>("Печать графика",this);
     openFolderButton = std::make_unique<QPushButton>("Выбрать папку",this);
@@ -40,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     leftPartModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
     leftPartModel->setRootPath(homePath);
     tableView->setModel(leftPartModel.get());
+
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
     std::unique_ptr<QVBoxLayout> mainLayout = std::make_unique<QVBoxLayout>(this);
     std::unique_ptr<QHBoxLayout> topLayout = std::make_unique<QHBoxLayout>();
     std::unique_ptr<QHBoxLayout> tLeftLayout = std::make_unique<QHBoxLayout>();
@@ -68,13 +73,39 @@ MainWindow::MainWindow(QWidget *parent) :
     mainWidget ->setLayout(mainLayout.release());
 
     setCentralWidget(mainWidget.release());
+
+    QItemSelection toggleSelection;
+    QModelIndex topLeft;
+    topLeft = leftPartModel->index(homePath);
+    toggleSelection.select(topLeft, topLeft);
+    selectionModel->select(toggleSelection, QItemSelectionModel::Toggle);
+
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::OpenFile);
     connect(openFolderButton.get(), &QPushButton::clicked, this, &MainWindow::OpenFolder);
+
+
 }
 
 void MainWindow::OpenFolder(){
-    QString filePath = QFileDialog::getExistingDirectory(this, "Выбор папки", QDir::homePath());
-
+    QString folderPath = QFileDialog::getExistingDirectory(this, "Выбор папки", QDir::homePath());
+    leftPartModel->setRootPath(folderPath);
+    tableView->setRootIndex(leftPartModel->index(folderPath));
 }
+
+void MainWindow::OpenFile(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected);
+    QModelIndex index = tableView->selectionModel()->currentIndex();
+    QModelIndexList indexs =  selected.indexes();
+    QString filePath = "";
+
+    if (indexs.count() >= 1) {
+        QModelIndex ix =  indexs.constFirst();
+        filePath = leftPartModel->filePath(ix);
+        this->statusBar()->showMessage("Выбранный путь : " + leftPartModel->filePath(indexs.constFirst()));
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
