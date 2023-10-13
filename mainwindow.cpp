@@ -87,8 +87,18 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::OpenFolder(){
-    QString folderPath = QFileDialog::getExistingDirectory(this, "Выбор папки", QDir::homePath());
+    QFileDialog fileDialog(nullptr, "Выберите папку");
+    QStringList filter;
+    filter << "*.sqlite" << "*.json" << "*.csv";
+    fileDialog.setOptions(QFileDialog::DontUseNativeDialog | QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    fileDialog.setFileMode(QFileDialog::Directory);
+    fileDialog.setNameFilter("*.sqlite *.json *.svg");
+    QString folderPath;
+    if(fileDialog.exec())
+        folderPath =fileDialog.selectedFiles().first();
     leftPartModel->setRootPath(folderPath);
+    leftPartModel->setFilter(QDir::Files);
+    leftPartModel->setNameFilters(filter);
     tableView->setRootIndex(leftPartModel->index(folderPath));
 }
 
