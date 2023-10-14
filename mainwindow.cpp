@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     toggleSelection.select(topLeft, topLeft);
     selectionModel->select(toggleSelection, QItemSelectionModel::Toggle);
 
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::OpenFile);
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::SelectFile);
     connect(openFolderButton.get(), &QPushButton::clicked, this, &MainWindow::OpenFolder);
 
 
@@ -102,7 +102,7 @@ void MainWindow::OpenFolder(){
     tableView->setRootIndex(leftPartModel->index(folderPath));
 }
 
-void MainWindow::OpenFile(const QItemSelection &selected, const QItemSelection &deselected)
+void MainWindow::SelectFile(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected);
     QModelIndex index = tableView->selectionModel()->currentIndex();
@@ -114,8 +114,21 @@ void MainWindow::OpenFile(const QItemSelection &selected, const QItemSelection &
         filePath = leftPartModel->filePath(ix);
         this->statusBar()->showMessage("Выбранный путь : " + leftPartModel->filePath(indexs.constFirst()));
     }
+    OpenFile(filePath);
 }
+void MainWindow::OpenFile(QString fileName){
+    QFileInfo fileInfo(fileName);
+    QString fileExtension = fileInfo.suffix();
+    if (fileExtension == "sqlite")
+        dataReader = std::make_unique<SQLDataReader>();
+    else if (fileExtension == "json")
+        dataReader = std::make_unique<JSONDataReader>();
+    QList<QPair<QString, float_t>> data = dataReader->GetData(fileName);
+    qDebug() << data.first().first;
 
+
+
+}
 MainWindow::~MainWindow()
 {
     delete ui;

@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "datareader.h"
 #include <QMainWindow>
 #include <QtGui>
 #include <QWidget>
@@ -42,12 +42,13 @@ public:
     std::unique_ptr <QTableView> tableView;
     std::unique_ptr <QSplitter> splitter;
     std::unique_ptr <QFileSystemModel> leftPartModel;
-
+    std::unique_ptr<IDataReader> dataReader;
 public slots:
     void OpenFolder();
-    void OpenFile(const QItemSelection &selected, const QItemSelection &deselected);
+    void SelectFile(const QItemSelection &selected, const QItemSelection &deselected);
 private:
     Ui::MainWindow *ui;
+    void OpenFile(QString fileName);
 protected:
 
 };
