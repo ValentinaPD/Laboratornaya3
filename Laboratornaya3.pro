@@ -25,12 +25,14 @@ QT+=charts
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    datareader.cpp
+    datareader.cpp \
+    chartcreator.cpp
 
 HEADERS += \
         mainwindow.h \
     datareader.h \
-    ioccontainer.h
+    ioccontainer.h \
+    chartcreator.h
 
 FORMS += \
         mainwindow.ui

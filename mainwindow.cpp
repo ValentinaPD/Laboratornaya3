@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QList>
+
+//int IOCContainer::s_nextTypeId = 115094801;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -28,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     chart->addSeries(series);
     chart->setTitle("QT Charts example");
 
-    chartView = std::make_unique<QChartView>(chart);
+    chartView = std::make_unique<QChartView>();
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setMinimumSize(500,500);
     chartView->setGeometry(100,100,700,700);
@@ -123,10 +126,18 @@ void MainWindow::OpenFile(QString fileName){
         dataReader = std::make_unique<SQLDataReader>();
     else if (fileExtension == "json")
         dataReader = std::make_unique<JSONDataReader>();
-    QList<QPair<QString, float_t>> data = dataReader->GetData(fileName);
-    qDebug() << data.first().first;
+    _data = dataReader->GetData(fileName);
+    qDebug() << _data.first().first;
+    ChangeChartType("Столбчатая диаграмма");
+}
 
-
+void MainWindow::ChangeChartType(const QString typeName){
+    if(typeName=="Столбчатая диаграмма"){
+        injector.RegisterFactory<ChartCreator, BarChartCreator>();
+        chartCreator = injector.GetObject<ChartCreator>();
+    }
+    if (chartCreator)
+        chartCreator->DrawChart(_data, chartView);
 
 }
 MainWindow::~MainWindow()

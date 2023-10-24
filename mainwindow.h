@@ -21,6 +21,8 @@
 #include <QSplitter>
 #include <memory>
 #include <QFileDialog>
+#include "chartcreator.h"
+#include <ioccontainer.h>
 namespace Ui {
 class MainWindow;
 }
@@ -32,6 +34,16 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+    void OpenFolder();
+    void SelectFile(const QItemSelection &selected, const QItemSelection &deselected);
+    void ChangeChartType(const QString typeName);
+private:
+    Ui::MainWindow *ui;
+    void OpenFile(QString fileName);
+    IOCContainer injector;
+protected:
     std::unique_ptr <QPushButton> printButton;
     std::unique_ptr <QPushButton> openFolderButton;
     std::unique_ptr <QLabel> label1;
@@ -43,13 +55,8 @@ public:
     std::unique_ptr <QSplitter> splitter;
     std::unique_ptr <QFileSystemModel> leftPartModel;
     std::unique_ptr<IDataReader> dataReader;
-public slots:
-    void OpenFolder();
-    void SelectFile(const QItemSelection &selected, const QItemSelection &deselected);
-private:
-    Ui::MainWindow *ui;
-    void OpenFile(QString fileName);
-protected:
+    std::shared_ptr<ChartCreator> chartCreator;
+    QList<QPair<QString, float_t>> _data;
 
 };
 
