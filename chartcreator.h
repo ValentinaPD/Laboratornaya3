@@ -7,6 +7,7 @@
 #include <memory>
 #include <QLineSeries>
 #include <QBarSeries>
+#include <QLineSeries>
 class ChartCreator
 {
 public:
@@ -17,6 +18,7 @@ protected:
     virtual void CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView) = 0;
     virtual void CreateTitle(std::unique_ptr<QChartView>& chartView) = 0;
     virtual void SetAnimation(std::unique_ptr<QChartView>& chartView) = 0;
+
 };
 
 class BarChartCreator:public ChartCreator
@@ -25,6 +27,15 @@ protected:
     void CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView) override;
     void CreateTitle(std::unique_ptr<QChartView>& chartView) override;
     void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
+};
+
+class LineChartCreator:public ChartCreator
+{
+protected:
+    void CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView) override;
+    void CreateTitle(std::unique_ptr<QChartView>& chartView) override;
+    void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
+
 };
 
 
