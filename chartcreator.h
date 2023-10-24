@@ -8,6 +8,8 @@
 #include <QLineSeries>
 #include <QBarSeries>
 #include <QLineSeries>
+#include <QPieSeries>
+#include <QScatterSeries>
 class ChartCreator
 {
 public:
@@ -37,6 +39,15 @@ protected:
     void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
 
 };
+class ScatterChartCreator:public ChartCreator
+{
+protected:
+    void CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView) override;
+    void CreateTitle(std::unique_ptr<QChartView>& chartView) override;
+    void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
+
+};
+
 
 
 

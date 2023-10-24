@@ -31,6 +31,7 @@ void BarChartCreator::SetAnimation(std::unique_ptr<QChartView>& chartView){
 void LineChartCreator::CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView){
     std::unique_ptr<QLineSeries> series = std::make_unique<QLineSeries>();
     int i = 0;
+
     for(auto item : data){
         series->append(i,item.second);
         i++;
@@ -44,6 +45,25 @@ void LineChartCreator::CreateTitle(std::unique_ptr<QChartView>& chartView){
     chartView->chart()->setTitle("Линейная");
 }
 void LineChartCreator::SetAnimation(std::unique_ptr<QChartView>& chartView){
+    chartView->chart()->setAnimationOptions(QChart::SeriesAnimations);
+}
+void ScatterChartCreator::CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView){
+    std::unique_ptr<QScatterSeries> series = std::make_unique<QScatterSeries>();
+    int i = 0;
+
+    for(auto item : data){
+        series->append(i,item.second);
+        i++;
+        if(i==5)
+            break;
+    }
+    chartView->chart()->addSeries(series.release());
+    chartView->chart()->createDefaultAxes();
+}
+void ScatterChartCreator::CreateTitle(std::unique_ptr<QChartView>& chartView){
+    chartView->chart()->setTitle("Scatter");
+}
+void ScatterChartCreator::SetAnimation(std::unique_ptr<QChartView>& chartView){
     chartView->chart()->setAnimationOptions(QChart::SeriesAnimations);
 }
 

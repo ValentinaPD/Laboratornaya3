@@ -133,7 +133,7 @@ void MainWindow::OpenFile(QString fileName){
 
 void MainWindow::ChangeChartType(const QString typeName){
     if(typeName=="Столбчатая диаграмма"){
-        injector.RegisterFactory<ChartCreator,LineChartCreator>();
+        injector.RegisterFactory<ChartCreator,ScatterChartCreator>();
         chartCreator = injector.GetObject<ChartCreator>();
     }
     if (chartCreator)
