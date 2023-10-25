@@ -39,6 +39,7 @@ public slots:
     void OpenFolder();
     void SelectFile(const QItemSelection &selected, const QItemSelection &deselected);
     void ChangeChartType(const QString typeName);
+    void PrintChart();
 private:
     Ui::MainWindow *ui;
     void OpenFile(QString fileName);
@@ -57,6 +58,7 @@ protected:
     std::unique_ptr<IDataReader> dataReader;
     std::shared_ptr<ChartCreator> chartCreator;
     QList<QPair<QString, float_t>> _data;
+
 
 };
 

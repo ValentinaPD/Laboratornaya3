@@ -23,6 +23,7 @@ QList<QPair<QString, float_t>> SQLDataReader::GetData(const QString& path){
            data.append(qMakePair(query.value(0).toString(), query.value(1).toFloat()));
            qDebug() << query.value(0).toString();
         }
+
         return data;
     }
     catch(const QString& ex) {

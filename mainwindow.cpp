@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::SelectFile);
     connect(openFolderButton.get(), &QPushButton::clicked, this, &MainWindow::OpenFolder);
+    connect(printButton.get(), &QPushButton::clicked, this, &MainWindow::PrintChart);
 
 
 }
@@ -138,7 +139,19 @@ void MainWindow::ChangeChartType(const QString typeName){
     }
     if (chartCreator)
         chartCreator->DrawChart(_data, chartView);
+}
 
+void MainWindow::PrintChart()
+{
+    if(!chartView->chart()->series().empty()){
+        QString filePath = QFileDialog::getSaveFileName(nullptr, "Экспорт диаграммы", "", "PDF (*.pdf)");
+        if (filePath.isEmpty())
+            return;
+        QPdfWriter pdfWriter(filePath);
+        QPainter painter(&pdfWriter);
+        chartView->render(&painter);
+        painter.end();
+    }
 }
 MainWindow::~MainWindow()
 {
