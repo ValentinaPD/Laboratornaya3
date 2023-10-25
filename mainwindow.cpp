@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QList>
 
-//int IOCContainer::s_nextTypeId = 115094801;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -144,15 +143,21 @@ void MainWindow::ChangeChartType(const QString typeName){
 void MainWindow::PrintChart()
 {
     if(!chartView->chart()->series().empty()){
-        QString filePath = QFileDialog::getSaveFileName(nullptr, "Экспорт диаграммы", "", "PDF (*.pdf)");
-        if (filePath.isEmpty())
-            return;
-        QPdfWriter pdfWriter(filePath);
-        QPainter painter(&pdfWriter);
-        chartView->render(&painter);
-        painter.end();
+        //QString filePath = QFileDialog::getSaveFileName(nullptr, "Экспорт диаграммы", "", "PDF (*.pdf)");
+       // if (filePath.isEmpty())
+       //     return;
+       // QPdfWriter pdfWriter(filePath);
+       // QPainter painter(&pdfWriter);
+       // chartView->render(&painter);
+       // painter.end();
+        //IOCContainer inj;
+        injector.RegisterFactory<Exporter,PdfExporter>();
+        std::shared_ptr<Exporter> ex = injector.GetObject<Exporter>();
+        QPixmap pix = chartView->grab();
+        ex->Export(pix);
     }
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;

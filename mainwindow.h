@@ -23,6 +23,7 @@
 #include <QFileDialog>
 #include "chartcreator.h"
 #include <ioccontainer.h>
+#include <exporter.h>
 namespace Ui {
 class MainWindow;
 }
