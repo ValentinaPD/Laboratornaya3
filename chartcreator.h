@@ -47,6 +47,14 @@ protected:
     void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
 
 };
+class PieChartCreator:public ChartCreator
+{
+protected:
+    void CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView) override;
+    void CreateTitle(std::unique_ptr<QChartView>& chartView) override;
+    void SetAnimation(std::unique_ptr<QChartView>& chartView) override;
+
+};
 
 
 
