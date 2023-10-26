@@ -143,14 +143,6 @@ void MainWindow::ChangeChartType(const QString typeName){
 void MainWindow::PrintChart()
 {
     if(!chartView->chart()->series().empty()){
-        //QString filePath = QFileDialog::getSaveFileName(nullptr, "Экспорт диаграммы", "", "PDF (*.pdf)");
-       // if (filePath.isEmpty())
-       //     return;
-       // QPdfWriter pdfWriter(filePath);
-       // QPainter painter(&pdfWriter);
-       // chartView->render(&painter);
-       // painter.end();
-        //IOCContainer inj;
         injector.RegisterFactory<Exporter,PdfExporter>();
         std::shared_ptr<Exporter> ex = injector.GetObject<Exporter>();
         QPixmap pix = chartView->grab();

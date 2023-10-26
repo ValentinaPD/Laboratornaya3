@@ -15,7 +15,6 @@ public:
 class PdfExporter: public Exporter
 {
     void Export(QPixmap pix) override{
-        qDebug() << "jnkj";
         QString filePath = QFileDialog::getSaveFileName(nullptr, "Экспорт диаграммы", "", "PDF (*.pdf)");
         if (filePath.isEmpty())
             return;
