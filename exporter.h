@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QPdfWriter>
 #include <QDebug>
+#include "datareader.h"
 class Exporter
 {
 public:

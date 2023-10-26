@@ -120,6 +120,7 @@ void MainWindow::SelectFile(const QItemSelection &selected, const QItemSelection
     OpenFile(filePath);
 }
 void MainWindow::OpenFile(QString fileName){
+    /*
     QFileInfo fileInfo(fileName);
     QString fileExtension = fileInfo.suffix();
     if (fileExtension == "sqlite")
@@ -127,7 +128,9 @@ void MainWindow::OpenFile(QString fileName){
     else if (fileExtension == "json")
         dataReader = std::make_unique<JSONDataReader>();
     _data = dataReader->GetData(fileName);
-    qDebug() << _data.first().first;
+    qDebug() << _data.first().first;*/
+    DataHandler dataHandler;
+    _data = dataHandler.GetGroupedData(fileName);
     ChangeChartType("Столбчатая диаграмма");
 }
 

@@ -27,14 +27,15 @@ SOURCES += \
         mainwindow.cpp \
     datareader.cpp \
     chartcreator.cpp \
-    exporter.cpp
+    datahandler.cpp
 
 HEADERS += \
         mainwindow.h \
     datareader.h \
     ioccontainer.h \
     chartcreator.h \
-    exporter.h
+    exporter.h \
+    datahandler.h
 
 FORMS += \
         mainwindow.ui
