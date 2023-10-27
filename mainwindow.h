@@ -25,11 +25,12 @@
 #include <ioccontainer.h>
 #include <exporter.h>
 #include <datahandler.h>
+#include <observer.h>
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public IObserver
 {
     Q_OBJECT
 
@@ -42,6 +43,7 @@ public slots:
     void SelectFile(const QItemSelection &selected, const QItemSelection &deselected);
     void ChangeChartType(const QString typeName);
     void PrintChart();
+
 private:
     Ui::MainWindow *ui;
     void OpenFile(QString fileName);
@@ -58,9 +60,10 @@ protected:
     std::unique_ptr <QSplitter> splitter;
     std::unique_ptr <QFileSystemModel> leftPartModel;
     std::unique_ptr<IDataReader> dataReader;
+    DataHandler dataHandler;
     std::shared_ptr<ChartCreator> chartCreator;
     QList<QPair<QString, float_t>> _data;
-
+    void Update(QList<QPair<QString, float_t>>& data) override;
 
 };
 

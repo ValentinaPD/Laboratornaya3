@@ -8,15 +8,16 @@
 #include <QFileInfo>
 #include <memory>
 #include <datareader.h>
-class DataHandler
+#include <observer.h>
+class DataHandler:public Subject
 {
 public:
     DataHandler();
-    QList<QPair<QString, float_t>> GetDataForCount(QString &path);
-    QList<QPair<QString, float_t>> GetGroupedData(QString &path);
+    QList<QPair<QString, float_t>> GetDataForCount(QString &path,int n);
+   // QList<QPair<QString, float_t>> GetGroupedData(QString &path);
 private:
     QList<QPair<QString, float_t>> data;
-    void GetData(QString &path);
+    void GetDataFromReader(QString &path);
 
 };
 

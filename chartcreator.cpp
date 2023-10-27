@@ -68,13 +68,8 @@ void ScatterChartCreator::SetAnimation(std::unique_ptr<QChartView>& chartView){
 }
 void PieChartCreator::CreateSeries(QList<QPair<QString, float_t>> data, std::unique_ptr<QChartView>& chartView){
     std::unique_ptr<QPieSeries> series = std::make_unique<QPieSeries>();
-    int i = 0;
-
     for(auto item : data){
         series->append(item.first,item.second);
-        i++;
-        if(i==5)
-            break;
     }
     chartView->chart()->addSeries(series.release());
 }

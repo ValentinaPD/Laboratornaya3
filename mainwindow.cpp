@@ -22,8 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     diagTypeComboBox = std::make_unique<QComboBox>();
     diagTypeComboBox->addItem("Круговая диаграмма");
     diagTypeComboBox->addItem("Столбчатая диаграмма");
+    diagTypeComboBox->addItem("Линейная диаграмма");
+    diagTypeComboBox->addItem("Точечная диаграмма");
     diagColorCheckBox = std::make_unique<QCheckBox>();
-
+    dataHandler.attach(std::shared_ptr<MainWindow>(this));
     QtCharts::QChart *chart = new QtCharts::QChart();
 
     QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
@@ -85,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::SelectFile);
     connect(openFolderButton.get(), &QPushButton::clicked, this, &MainWindow::OpenFolder);
     connect(printButton.get(), &QPushButton::clicked, this, &MainWindow::PrintChart);
-
+    connect(diagTypeComboBox.get(),&QComboBox::currentTextChanged,this,&MainWindow::ChangeChartType);
+    ChangeChartType("Круговая диаграмма");
 
 }
 
@@ -120,29 +123,38 @@ void MainWindow::SelectFile(const QItemSelection &selected, const QItemSelection
     OpenFile(filePath);
 }
 void MainWindow::OpenFile(QString fileName){
-    /*
-    QFileInfo fileInfo(fileName);
-    QString fileExtension = fileInfo.suffix();
-    if (fileExtension == "sqlite")
-        dataReader = std::make_unique<SQLDataReader>();
-    else if (fileExtension == "json")
-        dataReader = std::make_unique<JSONDataReader>();
-    _data = dataReader->GetData(fileName);
-    qDebug() << _data.first().first;*/
-    DataHandler dataHandler;
-    _data = dataHandler.GetGroupedData(fileName);
-    ChangeChartType("Столбчатая диаграмма");
+    _data = dataHandler.GetDataForCount(fileName,10);
 }
 
 void MainWindow::ChangeChartType(const QString typeName){
     if(typeName=="Столбчатая диаграмма"){
+        injector.RegisterFactory<ChartCreator,BarChartCreator>();
+        chartCreator = injector.GetObject<ChartCreator>();
+    }
+    else if (typeName=="Круговая диаграмма"){
         injector.RegisterFactory<ChartCreator,PieChartCreator>();
+        chartCreator = injector.GetObject<ChartCreator>();
+    }
+    else if (typeName=="Линейная диаграмма"){
+        injector.RegisterFactory<ChartCreator,LineChartCreator>();
+        chartCreator = injector.GetObject<ChartCreator>();
+    }
+    else if (typeName=="Точечная диаграмма"){
+        injector.RegisterFactory<ChartCreator,ScatterChartCreator>();
         chartCreator = injector.GetObject<ChartCreator>();
     }
     if (chartCreator)
         chartCreator->DrawChart(_data, chartView);
 }
+void MainWindow::Update(QList<QPair<QString, float_t>>& data){
 
+   // qDebug()<<"UPDATE";
+        //injector.RegisterFactory<ChartCreator,PieChartCreator>();
+        chartCreator = injector.GetObject<ChartCreator>();
+
+    if (chartCreator)
+        chartCreator->DrawChart(data, chartView);
+}
 void MainWindow::PrintChart()
 {
     if(!chartView->chart()->series().empty()){

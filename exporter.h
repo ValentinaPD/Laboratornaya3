@@ -5,6 +5,7 @@
 #include <QPdfWriter>
 #include <QDebug>
 #include "datareader.h"
+#include <memory>
 class Exporter
 {
 public:
@@ -30,5 +31,7 @@ class PdfExporter: public Exporter
         painter.end();
     }
 };
+
+
 
 #endif // EXPORTER_H

@@ -27,7 +27,8 @@ SOURCES += \
         mainwindow.cpp \
     datareader.cpp \
     chartcreator.cpp \
-    datahandler.cpp
+    datahandler.cpp \
+    observer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -35,7 +36,8 @@ HEADERS += \
     ioccontainer.h \
     chartcreator.h \
     exporter.h \
-    datahandler.h
+    datahandler.h \
+    observer.h
 
 FORMS += \
         mainwindow.ui
