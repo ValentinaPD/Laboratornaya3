@@ -147,9 +147,6 @@ void MainWindow::ChangeChartType(const QString typeName){
         chartCreator->DrawChart(_data, chartView);
 }
 void MainWindow::Update(QList<QPair<QString, float_t>>& data){
-
-   // qDebug()<<"UPDATE";
-        //injector.RegisterFactory<ChartCreator,PieChartCreator>();
         chartCreator = injector.GetObject<ChartCreator>();
 
     if (chartCreator)

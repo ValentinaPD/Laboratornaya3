@@ -21,8 +21,7 @@ QList<QPair<QString, float_t>> SQLDataReader::GetData(const QString& path){
         while(query.next())
         {
            data.append(qMakePair(query.value(0).toString(), query.value(1).toFloat()));
-           //qDebug() << query.value(0).toString();
-          // qDebug() << query.value(1).toString();
+
         }
 
         return data;
@@ -51,7 +50,7 @@ QList<QPair<QString, float_t>> JSONDataReader::GetData(const QString& path){
                QString key=iterator.next();
                double value =object.value(key).toDouble();
                data.append(qMakePair(key,value));
-              // qDebug() << object.value(key).toDouble();
+
            }
            if (data.isEmpty()) {
                throw QString("Файл \"" + path + "\" пуст");
